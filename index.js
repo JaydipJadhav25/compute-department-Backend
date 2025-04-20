@@ -30,6 +30,13 @@ app.use("/admin" , adminRouter);
 app.use("/open" , openRouter);
 
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
+});
+
+
 
 // app.listen(process.env.PORT , ()=>{
 //     console.log(`server running on port ${process.env.PORT} 🚀`)
@@ -52,6 +59,6 @@ if (!process.env.VERCEL) {
 // }
 // export { handler }; // Export the handler outside the block
 
-// const handler = serverless(app);
-// export default handler;
-
+/// Serverless export
+const handler = serverless(app);
+export { handler };
