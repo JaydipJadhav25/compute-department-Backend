@@ -5,7 +5,9 @@ import cors from "cors"
 import connectDB from "./config/db.js";
 import adminRouter from "./routes/admin.routes.js"
 import openRouter from "./routes/open.routes.js"
-import Events from "./model/events.model.js";
+import serverless from "serverless-http";  // Only needed for Vercel
+
+
 const app = express();
 connectDB();
 
@@ -29,6 +31,21 @@ app.use("/open" , openRouter);
 
 
 
-app.listen(process.env.PORT , ()=>{
-    console.log(`server running on port ${process.env.PORT} 🚀`)
-})
+// app.listen(process.env.PORT , ()=>{
+//     console.log(`server running on port ${process.env.PORT} 🚀`)
+// })
+
+
+// For local development (non-serverless):
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// For Vercel serverless (exporting handler using CommonJS)
+if (process.env.VERCEL) {
+  // Export for serverless function (Vercel)
+  module.exports = app => serverless(app);
+}
