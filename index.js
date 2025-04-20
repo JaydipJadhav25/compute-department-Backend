@@ -44,8 +44,9 @@ if (!process.env.VERCEL) {
   });
 }
 
-// For Vercel serverless (exporting handler using CommonJS)
+// For Vercel serverless (exporting handler)
+let handler;
 if (process.env.VERCEL) {
-  // Export for serverless function (Vercel)
-  module.exports = app => serverless(app);
+  handler = serverless(app); // Assign the handler for serverless
 }
+export { handler }; // Export the handler outside the block
