@@ -5,7 +5,7 @@ import cors from "cors"
 import connectDB from "./config/db.js";
 import adminRouter from "./routes/admin.routes.js"
 import openRouter from "./routes/open.routes.js"
-
+import Events from "./model/events.model.js";
 const app = express();
 connectDB();
 
@@ -15,8 +15,9 @@ app.use(express.urlencoded({extended : true}));
 app.use(cors());
 
 
-app.get("/" , (req , res) =>{
-    return res.send("<h1>Computer Department </h1>")
+app.get("/" , async(req , res) =>{
+
+    return res.send("<h1>Computer Department </h1>");
 })
 
 
