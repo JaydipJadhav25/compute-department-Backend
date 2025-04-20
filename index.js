@@ -44,9 +44,12 @@ if (!process.env.VERCEL) {
   });
 }
 
+
 // For Vercel serverless (exporting handler)
-let handler;
-if (process.env.VERCEL) {
-  handler = serverless(app); // Assign the handler for serverless
-}
-export { handler }; // Export the handler outside the block
+// let handler;
+// if (process.env.VERCEL) {
+//   handler = serverless(app); // Assign the handler for serverless
+// }
+// export { handler }; // Export the handler outside the block
+
+export const handler = serverless(app); 
