@@ -19,7 +19,9 @@ app.get("/" , async(req , res) =>{
 
     return res.send("<h1>Computer Department </h1>");
 })
-
+app.get('/my', (req, res) => {
+  res.json({ message: 'It works!' });
+});
 
 //routing
 app.use("/admin" , adminRouter);
