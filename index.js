@@ -52,6 +52,6 @@ if (!process.env.VERCEL) {
 // }
 // export { handler }; // Export the handler outside the block
 
-const handler = serverless(app);
-export default handler;
+// const handler = serverless(app);
+// export default handler;
 
