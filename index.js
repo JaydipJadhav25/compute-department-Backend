@@ -52,4 +52,4 @@ if (!process.env.VERCEL) {
 // }
 // export { handler }; // Export the handler outside the block
 
-export const handler = serverless(app); 
+export default  handler = serverless(app); 
