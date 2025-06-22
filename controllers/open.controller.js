@@ -43,6 +43,32 @@ const allAnnouncements = async(req , res) =>{
       }
 }
 
+
+
+const findeEvent = async(req , res) =>{
+ const {id} = req.params;
+  
+ try {
+    if(!id) {
+        return res.json({message: "id is requride"})
+    }
+
+    const event = await Events.findOne({_id : id});
+
+     if(!event) {
+          res.status(500).json({ error: 'Failed to fetch event ! Check you id ' });
+    }
+
+    return res.status(200).json(event);
+    
+
+    
+ } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch event' });
+ }
+ 
+}
+
 export {
-    allEvents , allAnnouncements , allMenbers
+    allEvents , allAnnouncements , allMenbers , findeEvent
 }

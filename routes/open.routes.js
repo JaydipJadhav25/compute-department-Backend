@@ -1,10 +1,11 @@
 import {Router} from "express"
-import { allAnnouncements, allEvents, allMenbers } from "../controllers/open.controller.js";
+import { allAnnouncements, allEvents, allMenbers, findeEvent } from "../controllers/open.controller.js";
 
 
 const router = Router();
 
-router.get("/events" , allEvents)
+router.get("/events" , allEvents);
+router.get("/events/:id" , findeEvent)
 
 router.get("/members" , allMenbers);
 
