@@ -81,7 +81,6 @@ const addEvent  = async(req, res) =>{
           location,
           imgurl,
           googlelink,
-    
           
         });
     

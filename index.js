@@ -31,7 +31,18 @@ const app = express();
 // };
 
 // Initialize connection before handling requests
- connectDB();
+ connectDB().then((res)=>{
+
+  app.listen(process.env.PORT || 5000 , ()=>{
+    console.log(`server running on port ${process.env.PORT} 🚀`)
+})
+
+
+ })
+ .catch((err)=>{
+  console.log("error : " , err);
+  process.exit(1);
+ })
 
 
 //middleware
@@ -49,22 +60,34 @@ app.get('/my', (req, res) => {
   res.json({ message: 'It works!' });
 });
 
+
 //routing
 app.use("/admin" , adminRouter);
 app.use("/open" , openRouter);
 
 
-// Error handling middleware
+// Error handling middleware //custom erro handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: "Something went wrong!" });
+  const errorName = err.name || "validation Error";
+  const errorMessage = err.message || "Something went wrong";
+  const statusCode = err.status || 500;
+  // res.status(500).json({ error: "Something went wrong!" });
+
+   return res.status(statusCode)
+             .json({
+              message : errorMessage,
+              error : errorName,
+              success : false
+             })
+
 });
 
 
 
-app.listen(process.env.PORT || 5000 , ()=>{
-    console.log(`server running on port ${process.env.PORT} 🚀`)
-})
+// app.listen(process.env.PORT || 5000 , ()=>{
+//     console.log(`server running on port ${process.env.PORT} 🚀`)
+// })
 
 
 // For local development (non-serverless):
