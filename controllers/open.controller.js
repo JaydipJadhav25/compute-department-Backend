@@ -5,8 +5,6 @@ import {ApiError} from "../utils/ApiError.js"
 import {asyncWraper} from "../utils/AsyncWraper.js"
 import { findAnnouncements, findEventById, findEvnts, findMembers } from "../services/open.service.js"
 
-
-
 const allMenbers = asyncWraper(async(req , res) =>{
     // const members = await Member.find();
     const members = await findMembers();
@@ -14,7 +12,7 @@ const allMenbers = asyncWraper(async(req , res) =>{
        throw new ApiError(500 , "database Error" , "fetch members Errors!");
     }
     res.status(200).json(members);     
-})
+});
 
 const allEvents = asyncWraper(async(req , res) => {
   
@@ -24,7 +22,7 @@ const allEvents = asyncWraper(async(req , res) => {
     }  
     return res.status(201).json(events);
 
-})
+});
 
 
 const allAnnouncements = asyncWraper(async(req , res) =>{
@@ -35,7 +33,7 @@ const allAnnouncements = asyncWraper(async(req , res) =>{
     }  
     res.status(201).json(announcements);
      
-})
+});
 
 
 
@@ -57,7 +55,7 @@ const findeEvent = asyncWraper(
 
 
 }
-)
+);
 
 export {
     allEvents , allAnnouncements , allMenbers , findeEvent
