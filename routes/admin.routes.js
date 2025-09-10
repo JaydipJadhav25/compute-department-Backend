@@ -15,13 +15,13 @@ router.post("/members", [
 
 //post - add evnts 
 router.post("/events" , [
-    body("title").notEmpty().withMessage("title is required"),
+    body("name").notEmpty().withMessage("name is required"),
     body("description").notEmpty().withMessage("description is required")
 ],addEvent)
 
 //post -add addAnnouncements
 router.post("/announcements" , [
-    body(" title").notEmpty().withMessage("name is required"),
+    body("title").notEmpty().withMessage("title is required"),
     body("description").notEmpty().withMessage("description is required")
 ] , addAnnouncements);
 
