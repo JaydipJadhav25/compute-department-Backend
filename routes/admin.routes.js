@@ -15,7 +15,7 @@ router.post("/members", [
 
 //post - add evnts 
 router.post("/events" , [
-    body("name").notEmpty().withMessage("name is required"),
+    body("title").notEmpty().withMessage("title is required"),
     body("description").notEmpty().withMessage("description is required")
 ],addEvent)
 

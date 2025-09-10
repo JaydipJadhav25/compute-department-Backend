@@ -4,6 +4,7 @@ import Announcement from "../model/announcement.js"
 import {ApiError} from "../utils/ApiError.js"
 import {asyncWraper} from "../utils/AsyncWraper.js"
 import { findAnnouncements, findEventById, findEvnts, findMembers } from "../services/open.service.js"
+import { AdminModel } from "../model/admin.js"
 
 const allMenbers = asyncWraper(async(req , res) =>{
     // const members = await Member.find();
@@ -57,6 +58,27 @@ const findeEvent = asyncWraper(
 }
 );
 
+
+
+//finde admin
+const findeAdmin = asyncWraper(
+    async(req ,res) =>{
+const {username} = req.body;
+
+    const admin = await AdminModel.find({
+        username : username
+    });
+
+    if(!admin) {
+         throw new ApiError(500 , "validation Error" , "username is not avaliable!")
+    }
+    
+    return res.status(200).json({success: tru});
+   
+}
+)
+
+
 export {
-    allEvents , allAnnouncements , allMenbers , findeEvent
+    allEvents , allAnnouncements , allMenbers , findeEvent , findeAdmin
 }
