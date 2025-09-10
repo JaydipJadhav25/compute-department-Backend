@@ -5,8 +5,20 @@ import cors from "cors"
 import connectDB from "./config/db.js";
 import adminRouter from "./routes/admin.routes.js"
 import openRouter from "./routes/open.routes.js"
-import serverless from "serverless-http";  // Only needed for Vercel
-import mongoose from "mongoose";
+// import serverless from "serverless-http";  // Only needed for Vercel
+// import mongoose from "mongoose";
+
+
+import swaggerUi from "swagger-ui-express";
+import { readFileSync } from "fs";
+
+
+
+
+// Load swagger-output.json without import assert
+const swaggerFile = JSON.parse(
+  readFileSync(new URL("./swagger-output.json", import.meta.url))
+);
 
 
 const app = express();
@@ -31,6 +43,9 @@ const app = express();
 // };
 
 // Initialize connection before handling requests
+
+
+
  connectDB().then((res)=>{
 
   app.listen(process.env.PORT || 5000 , ()=>{
@@ -43,6 +58,11 @@ const app = express();
   console.log("error : " , err);
   process.exit(1);
  })
+
+
+
+// Swagger docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 
 //middleware
