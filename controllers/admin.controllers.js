@@ -133,7 +133,6 @@ const addAnnouncements =async(req ,res) =>{
 }
 
 
-
 //delete all routes
 //memebers
 const deleteMember = asyncWraper(async(req , res)=>{
@@ -205,6 +204,34 @@ return res.status(200).json({success : true , message :  "Announcement deleted s
 });
 
 
+//update routes
+const updateAnnouncements = asyncWraper(async(req ,res) =>{
+  
+        const {  id , title, description, date } = req.body;
+    
+        // Basic validation
+        if (!title || !description || !date) {
+          throw new ApiError(400 , "validation Error" , "All fields are required")
+        }
+    
+        // finde and update  announcement
+         const announcement = await Announcement.findByIdAndUpdate(
+            id,
+            { title, description, date },
+            { new: true }
+          );
+
+           if(!announcement){
+          throw new ApiError(500 , "server error" , "server Error check NetWorlConnections!")
+           }
+        
+           return res.status(201).json({
+            success : true,
+            message : "Announcement update successfully"
+           })
+      
+})
+
 
 
 export {
@@ -214,5 +241,6 @@ export {
     addAnnouncements,
     deleteMember,
     deleteEvent,
-    deleteAnnouncement
+    deleteAnnouncement,
+    updateAnnouncements
 }
