@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { addAnnouncements, addEvent, addMenber } from "../controllers/admin.controllers.js";
+import { addAnnouncements, addEvent, addMenber, deleteAnnouncement, deleteEvent, deleteMember } from "../controllers/admin.controllers.js";
 import { body } from "express-validator";
 
 const router = Router();
@@ -26,5 +26,9 @@ router.post("/announcements" , [
 ] , addAnnouncements);
 
 
+//delte member
+router.post("/member/delete" , deleteMember);
+router.post("/announcement/delete" , deleteAnnouncement);
+router.post("/event/delete" , deleteEvent);
 
 export default router;

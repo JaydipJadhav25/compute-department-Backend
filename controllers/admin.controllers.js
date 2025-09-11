@@ -2,6 +2,9 @@ import {validationResult} from "express-validator"
 import memberMode from "../model/members.js"
 import Events from "../model/events.model.js"
 import Announcement from "../model/announcement.js"
+import { asyncWraper } from "../utils/AsyncWraper.js"
+import { ApiError } from "../utils/ApiError.js"
+import Member from "../model/members.js"
 
 
 // Add a new ACES member
@@ -51,7 +54,6 @@ const addMenber = async(req , res) =>{
   }
 
 }
-
 
 //add events
 const addEvent  = async(req, res) =>{
@@ -132,10 +134,85 @@ const addAnnouncements =async(req ,res) =>{
 
 
 
+//delete all routes
+//memebers
+const deleteMember = asyncWraper(async(req , res)=>{
+  
+  const {id} = req.body;
+
+  //check
+  if(!id){
+    throw new ApiError(400 , "validations Error" , "member id is requride!");
+  }
+
+  //delete member
+const member = await Member.findOneAndDelete({_id : id});
+
+if(!member){
+    throw new ApiError(501 , "Server Error" , "member deleted falied ! check member id");
+}
+
+
+return res.status(200).json({success : true , message :  "member deleted successfully !"});
+
+
+});
+//events
+
+const deleteEvent = asyncWraper(async(req , res)=>{
+  
+  const {id} = req.body;
+
+  //check
+  if(!id){
+    throw new ApiError(400 , "validations Error" , "Events id is requride!");
+  }
+
+  //delete member
+const event = await Events.findOneAndDelete({_id : id});
+
+if(!event){
+    throw new ApiError(501 , "Server Error" , "event deleted falied ! check member id");
+}
+
+
+return res.status(200).json({success : true , message :  "event deleted successfully !"});
+
+
+});
+
+//announcement
+const deleteAnnouncement = asyncWraper(async(req , res)=>{
+  
+  const {id} = req.body;
+
+  //check
+  if(!id){
+    throw new ApiError(400 , "validations Error" , "Announcement id is requride!");
+  }
+
+  //delete member
+const announcement = await Announcement.findOneAndDelete({_id : id});
+
+if(!announcement){
+    throw new ApiError(501 , "Server Error" , "Announcement deleted falied ! check member id");
+}
+
+
+return res.status(200).json({success : true , message :  "Announcement deleted successfully !"});
+
+
+});
+
+
+
+
 export {
 
     addMenber,
     addEvent,
-    addAnnouncements
-
+    addAnnouncements,
+    deleteMember,
+    deleteEvent,
+    deleteAnnouncement
 }
