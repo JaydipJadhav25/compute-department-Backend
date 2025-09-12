@@ -6,6 +6,7 @@ import {asyncWraper} from "../utils/AsyncWraper.js"
 import { findAnnouncements, findEventById, findEvnts, findMembers } from "../services/open.service.js"
 import { AdminModel } from "../model/admin.js"
 import { Activity } from "../model/activity.js"
+import Blog from "../model/Blog.js"
 
 const allMenbers = asyncWraper(async(req , res) =>{
     // const members = await Member.find();
@@ -97,6 +98,38 @@ const getActivities = async (req, res) => {
 };
 
 
+// GET /blogs?page=1&limit=10
+const getBlogs = async (req, res) => {
+  try {
+    let { page = 1, limit = 10 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const skip = (page - 1) * limit;
+
+    // Count total blogs
+    const total = await Blog.countDocuments();
+
+    // Fetch blogs with pagination (latest first)
+    const blogs = await Blog.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.status(200).json({
+      data: blogs,
+      page,
+      totalPages: Math.ceil(total / limit),
+      total,
+    });
+  } catch (err) {
+    console.error("Error fetching blogs:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
 export {
-    allEvents , allAnnouncements , allMenbers , findeEvent , findeAdmin , getActivities
+    allEvents , allAnnouncements , allMenbers , findeEvent , findeAdmin , getActivities , 
+    getBlogs
 }
