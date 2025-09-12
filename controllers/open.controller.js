@@ -5,6 +5,7 @@ import {ApiError} from "../utils/ApiError.js"
 import {asyncWraper} from "../utils/AsyncWraper.js"
 import { findAnnouncements, findEventById, findEvnts, findMembers } from "../services/open.service.js"
 import { AdminModel } from "../model/admin.js"
+import { Activity } from "../model/activity.js"
 
 const allMenbers = asyncWraper(async(req , res) =>{
     // const members = await Member.find();
@@ -79,6 +80,23 @@ const {username} = req.body;
 )
 
 
+//show activity
+const getActivities = async (req, res) => {
+  try {
+    // Get limit from query parameters, default to 4 if not provided
+    const limit = parseInt(req.query.limit) || 4;
+
+    const activities = await Activity.find()
+      .sort({ createdAt: -1 })
+      .limit(limit);
+
+    res.status(200).json(activities);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 export {
-    allEvents , allAnnouncements , allMenbers , findeEvent , findeAdmin
+    allEvents , allAnnouncements , allMenbers , findeEvent , findeAdmin , getActivities
 }

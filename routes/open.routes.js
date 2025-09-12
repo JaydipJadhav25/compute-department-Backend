@@ -1,6 +1,6 @@
 
 import {Router} from "express"
-import { allAnnouncements, allEvents, allMenbers, findeEvent } from "../controllers/open.controller.js";
+import { allAnnouncements, allEvents, allMenbers, findeEvent, getActivities } from "../controllers/open.controller.js";
 
 
 const router = Router();
@@ -12,6 +12,7 @@ router.get("/members" , allMenbers);
 
 router.get("/announcements" , allAnnouncements)
 
+router.get("/activities" , getActivities);
 
 export default router;
 

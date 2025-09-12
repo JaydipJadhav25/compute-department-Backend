@@ -5,6 +5,7 @@ import Announcement from "../model/announcement.js"
 import { asyncWraper } from "../utils/AsyncWraper.js"
 import { ApiError } from "../utils/ApiError.js"
 import Member from "../model/members.js"
+import { Activity } from "../model/activity.js"
 
 
 // Add a new ACES member
@@ -209,6 +210,9 @@ const updateAnnouncements = asyncWraper(async(req ,res) =>{
   
         const {  id , title, description, date } = req.body;
     
+        // console.log("id , title, description, date " , id , title, description, date );
+
+
         // Basic validation
         if (!title || !description || !date) {
           throw new ApiError(400 , "validation Error" , "All fields are required")
@@ -233,6 +237,22 @@ const updateAnnouncements = asyncWraper(async(req ,res) =>{
 })
 
 
+//add activity
+
+
+const createActivity = async (req, res) => {
+  try {
+    const { action } = req.body;
+    if (!action) {
+      return res.status(400).json({ message: 'Action field is required' });
+    }
+    const newActivity = new Activity({ action });
+    await newActivity.save();
+    res.status(201).json(newActivity);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export {
 
@@ -242,5 +262,6 @@ export {
     deleteMember,
     deleteEvent,
     deleteAnnouncement,
-    updateAnnouncements
+    updateAnnouncements ,
+    createActivity
 }

@@ -11,6 +11,7 @@ import openRouter from "./routes/open.routes.js"
 
 import swaggerUi from "swagger-ui-express";
 import { readFileSync } from "fs";
+import { Activity } from "./model/activity.js";
 
 
 
@@ -71,8 +72,19 @@ app.use(express.urlencoded({extended : true}));
 app.use(cors());
 
 
-app.get("/" , async(req , res) =>{
+const dummyActivities = [
+  { action: "New member added" },
+  { action: "User logged in" },
+  { action: "Password changed" },
+  { action: "Subscription renewed" },
+  { action: "New comment posted" },
+];
 
+
+
+
+app.get("/" , async(req , res) =>{
+    
     return res.send("<h1>Computer Department </h1>");
 });
 
